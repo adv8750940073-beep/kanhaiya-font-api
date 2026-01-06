@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>KrutiDev → Unicode Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body{
+      font-family: system-ui;
+      background:#0f172a;
+      color:#e5e7eb;
+      padding:20px;
+    }
+    .box{
+      max-width:900px;
+      margin:auto;
+      background:#020617;
+      padding:20px;
+      border-radius:12px;
+    }
+    textarea{
+      width:100%;
+      min-height:180px;
+      margin:10px 0;
+      padding:12px;
+      font-size:16px;
+    }
+    button{
+      padding:10px 16px;
+      margin:5px;
+      border-radius:6px;
+      border:0;
+      cursor:pointer;
+    }
+    .primary{background:#2563eb;color:#fff}
+    .success{background:#16a34a;color:#fff}
+    .danger{background:#dc2626;color:#fff}
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>KrutiDev → Unicode Converter (Python API)</h2>
+
+  <textarea id="krutiText" placeholder="Paste KrutiDev ASCII text here"></textarea>
+
+  <button class="primary" onclick="convertText()">Convert</button>
+  <button class="danger" onclick="clearText()">Clear</button>
+
+  <textarea id="unicodeText" placeholder="Unicode Output"></textarea>
+
+  <button class="success" onclick="copyText()">Copy</button>
+</div>
+
+<script>
+function convertText(){
+  let input = document.getElementById("krutiText").value;
+
+  if(!input.trim()){
+    alert("KrutiDev text empty hai");
+    return;
+  }
+
+  fetch("http://127.0.0.1:8000/convert", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: input })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("unicodeText").value = data.unicode;
+  })
+  .catch(err => {
+    alert("Server error – Python API running hai ya nahi check karo");
+    console.error(err);
+  });
+}
+
+function clearText(){
+  document.getElementById("krutiText").value = "";
+  document.getElementById("unicodeText").value = "";
+}
+
+function copyText(){
+  let t = document.getElementById("unicodeText");
+  t.select();
+  document.execCommand("copy");
+}
+</script>
+
+</body>
+</html>
