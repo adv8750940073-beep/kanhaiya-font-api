@@ -50,3 +50,8 @@ async def convert_pdf(file: UploadFile = File(...)):
     return {
         "unicode": unicode_text
     }
+# 👉 WEBSITE
+@app.get("/web", response_class=HTMLResponse)
+def web():
+    with open("convert.html", "r", encoding="utf-8") as f:
+        return f.read()
