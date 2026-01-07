@@ -10,6 +10,10 @@ from Unicode_KrutiDev_converter import KrutiDev_to_Unicode
 
 app = FastAPI(title="KrutiDev to Unicode API")
 
+@app.get("/")
+def home():
+    return {"status": "OK"}
+    
 # CORS (browser se call allow karne ke liye)
 app.add_middleware(
     CORSMiddleware,
