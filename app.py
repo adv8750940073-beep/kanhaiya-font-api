@@ -27,6 +27,12 @@ def home():
         "message": "KrutiDev to Unicode API is running"
     }
 
+# 👉 WEBSITE
+@app.get("/web", response_class=HTMLResponse)
+def web():
+    with open("convert.html", "r", encoding="utf-8") as f:
+        return f.read()
+
 @app.post("/convert")
 def convert(data: InputText):
     result = KrutiDev_to_Unicode(data.text)
@@ -50,8 +56,3 @@ async def convert_pdf(file: UploadFile = File(...)):
     return {
         "unicode": unicode_text
     }
-# 👉 WEBSITE
-@app.get("/web", response_class=HTMLResponse)
-def web():
-    with open("convert.html", "r", encoding="utf-8") as f:
-        return f.read()
