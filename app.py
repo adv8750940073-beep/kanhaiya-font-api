@@ -1,3 +1,4 @@
+from fastapi.responses import HTMLResponse
 from fastapi import UploadFile, File
 import pdfplumber
 from fastapi.middleware.cors import CORSMiddleware
