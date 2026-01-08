@@ -1,14 +1,26 @@
-name: Keep Render API Alive
+name: Keep Render Services Alive (Random Delay)
 
 on:
   schedule:
-    - cron: "*/14 * * * *"   # har 14 minute
+    - cron: "*/10 * * * *"   # har 10 minute
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping CET Ranker API
+      - name: Random delay to avoid fixed pattern
         run: |
+          DELAY=$((RANDOM % 180))
+          echo "Sleeping for $DELAY seconds..."
+          sleep $DELAY
+
+      - name: Ping Render Services
+        run: |
+          echo "Pinging services..."
+
           curl -I https://api.cetranker.com/web
+          curl -I https://admin.cetranker.com/web
+          curl -I https://quiz.cetranker.com/web
+
+          echo "Ping completed"
